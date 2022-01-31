@@ -174,9 +174,12 @@ class Basket {
 ```
 
 ### Complex Conditional
-Multiple nested if statements 
+A single conditional contains multiple clauses that are hard to understand
 
 ```javascript
+if (date.before(SUMMER_START) || date.after(SUMMER_END)) {
+  charge = quantity * winterRate + winterServiceCharge;
+}
 ```
 
 ### Comments
@@ -209,11 +212,11 @@ Special hardcoded numbers or strings are used throughout the code with no clear 
 Look at the Cinema class in `src/cinema.js`. How many Code Smells from the list above can you spot? Go through the code and annotate your forked copy with comments whenever you notice a code smell. Don't worry about how you'd "fix it" at this point, just try to recognize where the smells are.
 
 ## Refactorings
-Draw up a table. In the first column, list the Code Smells from the section above. In the second, list one or more refactorings from the list below that you could apply to remove that code smell.
+Draw up a table with 2 columns. In the first column, list the Code Smells from the section above. In the second, list one or more refactorings from the list below that you could apply to remove that code smell.
 
 * Extract Method - Create a new method based on existing code
 * Extract Class - Create a new class based on existing code
-* Introduce Explaining Variable - Create a new variable 
+* Introduce Explaining Variable - Create a new variable to help explain the purpose of an intermediate value
 * Introduce Constant - Create a new constant
 * Rename Method - Rename an existing method
 * Rename Variable - Rename an existing variable
@@ -232,4 +235,9 @@ If you are not sure what to do next, check out `hints.md`
 - The list of films and screens are stored in arrays, but are also uniquely identified by name. Is there another data structure we could use instead of array?
 
 ## Discussion
-While you were refactoring, sometimes you may have changed the implementation of a method, sometimes you might have had to change the method name, arguments or have moved the method somewhere else entirely. It's likely that with the first type of change you didn't need to update any tests, but with the second type change you would almost always have to update tests or even introduce new tests. Is there any lesson you can take from this with regards to how you design the public and private interface of a class?
+During the course of refactoring you may have changed the implementation of a method only, or sometimes you might have had to change the method name, arguments or move the method somewhere else entirely. It's likely that with the first type of change you didn't need to update any tests, but with the second type change you would almost always have to update tests or even introduce new tests. Is there any lesson you can take from this with regards to how you design the public and private interface of a class?
+
+## Additional References
+* https://refactoring.guru/
+* https://blog.codinghorror.com/code-smells/
+* https://refactoring.com/catalog/

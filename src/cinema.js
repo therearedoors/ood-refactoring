@@ -174,7 +174,7 @@ class Cinema {
       d2.setMilliseconds(0)
       d2.setSeconds(0)
       d2.setMinutes(intendedEndTimeMinutes)
-      d2.setHours(intendedStartTimeHours)
+      d2.setHours(intendedEndTimeHours)
 
       const d3 = new Date()
       d3.setMilliseconds(0)
@@ -188,7 +188,7 @@ class Cinema {
       d4.setMinutes(endTimeMins)
       d4.setHours(endTimeHours)
 
-      if ((d1 > d3 && d1 < d4) || (d2 > d3 && d2 < d4)) {
+      if ((d1 > d3 && d1 < d4) || (d2 > d3 && d2 < d4) || (d1 < d3 && d2 > d4) ) {
         error = true
         break
       }
