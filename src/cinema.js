@@ -31,17 +31,17 @@ class Cinema {
   }
 
   //Add a new film
-  addNew(movie, r, duration) {
+  addNew(movieName, r, duration) {
 
     //Check the film doesn't already exist
-    let film = null
+    let movie = null
     for (let i=0;i<this.films.length;i++) {
-      if (this.films[i].name==movie) {
-        film = this.films[i]
+      if (this.films[i].name==movieName) {
+        movie = this.films[i]
       }
     }
 
-    if(film!=null) {
+    if(movie!=null) {
       return 'Film already exists'
     }
 
@@ -64,7 +64,7 @@ class Cinema {
       return 'Invalid duration'
     }
 
-    this.films.push({name:movie, rating:r, duration: duration})
+    this.films.push({name:movieName, rating:r, duration: duration})
   }
 
   //Add a showing for a specific film to a screen at the provided start time
@@ -121,24 +121,24 @@ class Cinema {
     }
 
     //Find the screen by name
-    let screen = null
+    let theatre = null
     for (let i=0;i<this.screens.length;i++) {
       if (this.screens[i].name==screenName) {
-        screen = this.screens[i]
+        theatre = this.screens[i]
       }
     }
 
-    if(screen===null) {
+    if(theatre===null) {
       return 'Invalid screen'
     }
     
     //Go through all existing showings for this film and make
     //sure the start time does not overlap 
     let error = false
-    for(let i=0;i<screen.showings.length;i++) {
+    for(let i=0;i<theatre.showings.length;i++) {
 
       //Get the start time in hours and minutes
-      const startTime = screen.showings[i].startTime
+      const startTime = theatre.showings[i].startTime
       result = /^(\d?\d):(\d\d)$/.exec(startTime)
       if(result==null) {
         return 'Invalid start time'
@@ -151,7 +151,7 @@ class Cinema {
       }
 
       //Get the end time in hours and minutes
-      const endTime = screen.showings[i].endTime
+      const endTime = theatre.showings[i].endTime
       result = /^(\d?\d):(\d\d)$/.exec(endTime)
       if(result==null) {
         return 'Invalid end time'
@@ -199,7 +199,7 @@ class Cinema {
     }
 
     //Add the new start time and end time to the showing
-    screen.showings.push({
+    theatre.showings.push({
       film: film,
       startTime: startTime,
       endTime: intendedEndTimeHours + ":" + intendedEndTimeMinutes
