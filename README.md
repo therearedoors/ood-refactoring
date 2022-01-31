@@ -228,13 +228,27 @@ Draw up a table with 2 columns. In the first column, list the Code Smells from t
 * Rename Variable - Rename an existing variable
 
 ## Exercise Part 2
-Take the list of refactorings from the previous step and apply these to the Cinema class. Remember:
+Take the list of refactorings from the previous step and apply these to the Cinema class wherever you identified a code smell. Remember:
 
 - Refactor in small, incremental steps. 
 - Use tests to constantly verify  code is still working after each change
 - Start with small changes such as rename variable, then move on to more complex refactorings such as extract method
 
-If you are not sure what to do next, check out `hints.md`
+If you are not sure what to do next, check out `hints.md`. 
+
+In industry, you could spend a long time endless trying to improve the same piece of code. Refactoring is never finished, it's something we do continuously, so at some point you need to decide it's "good enough". For this exercise, aim to complete **one or more** of the refactorings in each step.
+
+### Core
+- Rename Method
+- Rename Variable
+- Introduce Constant
+
+### Extension 1
+- Introduce Explaining Variable
+- Extract Method
+
+### Extension 2
+- Extract Class
 
 ## Extra Work
 
