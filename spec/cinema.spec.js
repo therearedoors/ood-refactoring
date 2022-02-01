@@ -1,4 +1,5 @@
 const Cinema = require("../src/cinema")
+const Film = require("../src/film")
 
 describe("Cinema", () => {
   let cinema
@@ -41,18 +42,10 @@ describe("Cinema", () => {
     cinema.addFilm("The Power of the Dog", "15", "2:08")
 
     const expected = [
-      {
-        name: "Nomad Land",
-        rating: "12",
-        duration: "1:48",
-      },
-      {
-        name: "The Power of the Dog",
-        rating: "15",
-        duration: "2:08",
-      },
+      new Film("Nomad Land","12","1:48")
+      ,
+      new Film("The Power of the Dog", "15","2:08")
     ]
-
     expect(cinema.films).toEqual(expected)
   })
 
@@ -212,7 +205,6 @@ describe("Cinema", () => {
     cinema.addFilm("Film1", "12", "1:00")
     cinema.addFilm("Film2", "12", "4:00")
     cinema.addScreen("Screen #1", 20)
-
     cinema.addShowtime("Film1", "Screen #1", "10:00")
     const result = cinema.addShowtime("Film2", "Screen #1", "08:30")
     const expected = 'Time unavailable'

@@ -1,6 +1,8 @@
 const Screen = require("./screen")
+const Film = require("./film")
 const RATINGS = ["U", "PG", "12", "15", "18"]
 const VALID_TIME_FORMAT = /^(\d?\d):(\d\d)$/
+const SCREEN_CLEAN_TIME = 20
 
 class Cinema {
 
@@ -17,9 +19,8 @@ class Cinema {
     }
 
     //Check the screen doesn't already exist
-    //REFACTOR: new method to check screen exists
-    const filtered = this.screens.filter(s => s.name !== screenName)
-    if(this.screens.length !== filtered.length) {
+    const filtered = this.screens.filter(s => s.name === screenName)
+    if(filtered.length > 0) {
       return 'Screen already exists'
     }
 
@@ -31,22 +32,17 @@ class Cinema {
   }
 
   //Add a new film
-  addFilm(movieName, rating, duration) {
+  addFilm(filmName, rating, duration) {
 
     //Check the film doesn't already exist
-    let movie = null
-    for (let i=0;i<this.films.length;i++) {
-      if (this.films[i].name==movieName) {
-        movie = this.films[i]
-      }
-    }
-
-    if(movie!=null) {
+    const film = new Film(filmName,rating,duration)
+    let filtered = this.films.filter(f => f.name === filmName)
+      if (filtered.length > 0) {
       return 'Film already exists'
     }
 
     //Check the rating is valid
-    if (!RATINGS.includes(rating)) {
+    if (!film.validRating()) {
         return 'Invalid rating'
       }
 
@@ -62,11 +58,11 @@ class Cinema {
       return 'Invalid duration'
     }
 
-    this.films.push({name:movieName, rating:rating, duration: duration})
+    this.films.push(film)
   }
 
   //Add a showing for a specific film to a screen at the provided start time
-  addShowtime(movie, screenName, startTime) {
+  addShowtime(filmName, screenName, startTime) {
 
     let result = VALID_TIME_FORMAT.exec(startTime)
     if(result==null) {
@@ -80,15 +76,10 @@ class Cinema {
     }
 
 
-    let film = null
+    let film = this.films.find(f => f.name === filmName)
     //Find the film by name
-    for (let i=0;i<this.films.length;i++) {
-      if (this.films[i].name==movie) {
-        film = this.films[i]
-      }
-    }
 
-    if(film===null) {
+    if(film===undefined) {
       return 'Invalid film'
     }
 
@@ -108,7 +99,7 @@ class Cinema {
     
     //It takes 20 minutes to clean the screen so add on 20 minutes to the duration 
     //when working out the end time
-    let intendedEndTimeMinutes = intendedStartTimeMinutes + durationMins + 20
+    let intendedEndTimeMinutes = intendedStartTimeMinutes + durationMins + SCREEN_CLEAN_TIME
     if (intendedEndTimeMinutes>=60) {
       intendedEndTimeHours += Math.floor(intendedEndTimeMinutes/60)
       intendedEndTimeMinutes = intendedEndTimeMinutes%60
