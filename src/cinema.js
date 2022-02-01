@@ -1,3 +1,7 @@
+const Screen = require("./screen")
+const RATINGS = ["U", "PG", "12", "15", "18"]
+const VALID_TIME_FORMAT = /^(\d?\d):(\d\d)$/
+
 class Cinema {
 
   constructor() {
@@ -6,20 +10,16 @@ class Cinema {
   }
 
   //Add a new screen
-  save(screenName, capacity) {
-    if (capacity > 100) {
+  addScreen(screenName, capacity) {
+    const screen = new Screen(screenName,capacity)
+    if (screen.invalidCapacity()) {
       return 'Exceeded max capacity'
     }
 
     //Check the screen doesn't already exist
-    let screen = null
-    for (let i=0;i<this.screens.length;i++) {
-      if (this.screens[i].name===screenName) {
-        screen = this.screens[i]
-      }
-    }
-
-    if(screen!=null) {
+    //REFACTOR: new method to check screen exists
+    const filtered = this.screens.filter(s => s.name !== screenName)
+    if(this.screens.length !== filtered.length) {
       return 'Screen already exists'
     }
 
@@ -31,7 +31,7 @@ class Cinema {
   }
 
   //Add a new film
-  addNew(movieName, r, duration) {
+  addFilm(movieName, rating, duration) {
 
     //Check the film doesn't already exist
     let movie = null
@@ -46,14 +46,12 @@ class Cinema {
     }
 
     //Check the rating is valid
-    if (r!="U" && r!="PG") {
-      if (r!="12" && r!="15" && r!="18") {
+    if (!RATINGS.includes(rating)) {
         return 'Invalid rating'
       }
-    }
-    
+
     //Check duration
-    const result = /^(\d?\d):(\d\d)$/.exec(duration)
+    const result = VALID_TIME_FORMAT.exec(duration)
     if(result==null) {
       return 'Invalid duration'
     }
@@ -64,17 +62,17 @@ class Cinema {
       return 'Invalid duration'
     }
 
-    this.films.push({name:movieName, rating:r, duration: duration})
+    this.films.push({name:movieName, rating:rating, duration: duration})
   }
 
   //Add a showing for a specific film to a screen at the provided start time
-  add(movie, screenName, startTime) {
+  addShowtime(movie, screenName, startTime) {
 
-    let result = /^(\d?\d):(\d\d)$/.exec(startTime)
+    let result = VALID_TIME_FORMAT.exec(startTime)
     if(result==null) {
       return 'Invalid start time'
     }
-
+    
     const intendedStartTimeHours = parseInt(result[1])
     const intendedStartTimeMinutes = parseInt(result[2])
     if(intendedStartTimeHours<=0 || intendedStartTimeMinutes>60) {
@@ -97,7 +95,7 @@ class Cinema {
     //From duration, work out intended end time
     //if end time is over midnight, it's an error
     //Check duration
-    result = /^(\d?\d):(\d\d)$/.exec(film.duration)
+    result = VALID_TIME_FORMAT.exec(film.duration)
     if(result==null) {
       return 'Invalid duration'
     }
@@ -139,7 +137,7 @@ class Cinema {
 
       //Get the start time in hours and minutes
       const startTime = theatre.showings[i].startTime
-      result = /^(\d?\d):(\d\d)$/.exec(startTime)
+      result = VALID_TIME_FORMAT.exec(startTime)
       if(result==null) {
         return 'Invalid start time'
       }
@@ -152,7 +150,7 @@ class Cinema {
 
       //Get the end time in hours and minutes
       const endTime = theatre.showings[i].endTime
-      result = /^(\d?\d):(\d\d)$/.exec(endTime)
+      result = VALID_TIME_FORMAT.exec(endTime)
       if(result==null) {
         return 'Invalid end time'
       }
