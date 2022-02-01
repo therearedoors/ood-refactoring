@@ -14,7 +14,7 @@ class Cinema {
   //Add a new screen
   addScreen(screenName, capacity) {
     const screen = new Screen(screenName,capacity)
-    if (screen.invalidCapacity()) {
+    if (!screen.validCapacity()) {
       return 'Exceeded max capacity'
     }
 
@@ -110,24 +110,23 @@ class Cinema {
     }
 
     //Find the screen by name
-    let theatre = null
+    let screen = null
     for (let i=0;i<this.screens.length;i++) {
       if (this.screens[i].name==screenName) {
-        theatre = this.screens[i]
+        screen = this.screens[i]
       }
     }
 
-    if(theatre===null) {
+    if(screen===null) {
       return 'Invalid screen'
     }
     
     //Go through all existing showings for this film and make
     //sure the start time does not overlap 
     let error = false
-    for(let i=0;i<theatre.showings.length;i++) {
-
+    for(let i=0;i<screen.showings.length;i++) {
       //Get the start time in hours and minutes
-      const startTime = theatre.showings[i].startTime
+      const startTime = screen.showings[i].startTime
       result = VALID_TIME_FORMAT.exec(startTime)
       if(result==null) {
         return 'Invalid start time'
@@ -140,7 +139,7 @@ class Cinema {
       }
 
       //Get the end time in hours and minutes
-      const endTime = theatre.showings[i].endTime
+      const endTime = screen.showings[i].endTime
       result = VALID_TIME_FORMAT.exec(endTime)
       if(result==null) {
         return 'Invalid end time'
@@ -153,31 +152,17 @@ class Cinema {
       }
 
       //if intended start time is between start and end
-      const d1 = new Date()
-      d1.setMilliseconds(0)
-      d1.setSeconds(0)
-      d1.setMinutes(intendedStartTimeMinutes)
-      d1.setHours(intendedStartTimeHours)
+      const intendedStartTime = this.setDate(intendedStartTimeMinutes,intendedStartTimeHours)
 
-      const d2 = new Date()
-      d2.setMilliseconds(0)
-      d2.setSeconds(0)
-      d2.setMinutes(intendedEndTimeMinutes)
-      d2.setHours(intendedEndTimeHours)
+      const intendedEndTime = this.setDate(intendedEndTimeMinutes, intendedEndTimeHours)
 
-      const d3 = new Date()
-      d3.setMilliseconds(0)
-      d3.setSeconds(0)
-      d3.setMinutes(startTimeMins)
-      d3.setHours(startTimeHours)
+      const StartTime = this.setDate(startTimeMins,startTimeHours)
 
-      const d4 = new Date()
-      d4.setMilliseconds(0)
-      d4.setSeconds(0)
-      d4.setMinutes(endTimeMins)
-      d4.setHours(endTimeHours)
+      const EndTime = this.setDate(endTimeMins, endTimeHours)
 
-      if ((d1 > d3 && d1 < d4) || (d2 > d3 && d2 < d4) || (d1 < d3 && d2 > d4) ) {
+      if ((intendedStartTime > StartTime && intendedStartTime < EndTime) ||
+       (intendedEndTime > StartTime && intendedEndTime < EndTime) ||
+        (intendedStartTime < StartTime && intendedEndTime > EndTime) ) {
         error = true
         break
       }
@@ -188,12 +173,21 @@ class Cinema {
     }
 
     //Add the new start time and end time to the showing
-    theatre.showings.push({
+    screen.showings.push({
       film: film,
       startTime: startTime,
       endTime: intendedEndTimeHours + ":" + intendedEndTimeMinutes
     })
-  } 
+  }
+
+  setDate(minutes,hours){
+    const date = new Date()
+    date.setMilliseconds(0)
+    date.setSeconds(0)
+    date.setMinutes(minutes)
+    date.setHours(hours)
+    return date
+  }
 
   allShowings() {
     let showings = {}

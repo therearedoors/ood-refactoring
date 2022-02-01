@@ -4,10 +4,11 @@ class Screen {
 constructor(name, capacity) {
     this.name = name
     this.capacity = capacity
+    this.showings = []
 }
 
-    invalidCapacity() {
-        return this.capacity > MAX_CAPACITY
+    validCapacity() {
+        return this.capacity <= MAX_CAPACITY
     }
 }
 module.exports = Screen
