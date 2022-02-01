@@ -227,6 +227,8 @@ Draw up a table with 2 columns. In the first column, list the Code Smells from t
 * Rename Method - Rename an existing method
 * Rename Variable - Rename an existing variable
 
+See https://refactoring.com/catalog/ for examples of some of these refactorings.
+
 ## Exercise Part 2
 Take the list of refactorings from the previous step and apply these to the Cinema class wherever you identified a code smell. Remember:
 
@@ -234,9 +236,9 @@ Take the list of refactorings from the previous step and apply these to the Cine
 - Use tests to constantly verify  code is still working after each change
 - Start with small changes such as rename variable, then move on to more complex refactorings such as extract method
 
-If you are not sure what to do next, check out `hints.md`. 
+If you are not sure what to do next or are stuck, check out the files in `hints` folder for each step.
 
-In industry, you could spend a long time endless trying to improve the same piece of code. Refactoring is never finished, it's something we do continuously, so at some point you need to decide it's "good enough". For this exercise, aim to complete **one or more** of the refactorings in each step.
+In industry, you could spend a long time endless trying to improve the same piece of code. Refactoring is never finished, it's something we do continuously, so at some point you need to decide it's "good enough". For this exercise, try to complete **one or more** of the refactorings in each step.
 
 ### Core
 - Rename Method
@@ -244,8 +246,9 @@ In industry, you could spend a long time endless trying to improve the same piec
 - Introduce Constant
 
 ### Extension 1
-- Introduce Explaining Variable
-- Extract Method
+- Introduce Explaining Variable / Extract Method
+
+*For this part, you might chose to use Extract Method rather than Introduce Explaining Variable for at least of the refactoring opportunities*
 
 ### Extension 2
 - Extract Class
@@ -260,4 +263,3 @@ During the course of refactoring you may have changed the implementation of a me
 ## Additional References
 * https://refactoring.guru/
 * https://blog.codinghorror.com/code-smells/
-* https://refactoring.com/catalog/
